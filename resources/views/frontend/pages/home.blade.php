@@ -222,6 +222,49 @@
     </div>
 </section>
 
+<!-- Testimonials -->
+ <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
+            <p class="text-gray-600">Testimonials from our valued clients</p>
+        </div>
+
+        @if($testimonials && $testimonials->count() > 0)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach($testimonials as $testimonial)
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="mb-4">
+                    <i data-lucide="quote" class="w-8 h-8 text-blue-600"></i>
+                </div>
+                <p class="text-gray-700 italic mb-4">"{{ $testimonial->content }}"</p>
+                <div class="flex items-center">
+                    @if($testimonial->image)
+                        <img src="{{ asset('storage/' . $testimonial->image) }}" 
+                             alt="{{ $testimonial->name }}" 
+                             class="w-12 h-12 rounded-full object-cover mr-4">
+                    @else
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4">
+                            <i data-lucide="user" class="w-6 h-6 text-gray-400"></i>
+                        </div>
+                    @endif
+                    <div>
+                        <h4 class="text-gray-900 font-semibold">{{ $testimonial->name }}</h4>
+                        <span class="text-gray-500 text-sm">{{ $testimonial->position }}</span>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center py-12">
+            <i data-lucide="message-square" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+            <p class="text-gray-600">No testimonials available at the moment.</p>
+        </div>
+        @endif
+    </div>
+</section>
+
 <!-- Call to Action -->
 <section class="py-16 bg-gray-900 text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

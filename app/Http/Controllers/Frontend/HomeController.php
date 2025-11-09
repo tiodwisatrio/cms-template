@@ -8,6 +8,7 @@ use App\Models\About;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Service;
+use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class HomeController extends Controller
             'abouts'=>About::where('status', 'active')->get(),
             'services'=>Service::where('status', 1)->get(),
             'ourclients'=>\App\Models\OurClient::where('status', 1)->get(),
+            'testimonials'=>Testimonial::where('status', 1)->get(),
         ];
 
 
@@ -34,6 +36,9 @@ class HomeController extends Controller
             ->orderBy('order', 'asc')
             ->get();
 
+        $testimonials = Testimonial::where('status', 1)
+            ->orderBy('order', 'asc')
+            ->get();
 
         $latestPosts = Post::with(['category', 'user'])
             ->where('status', 'active')
@@ -49,6 +54,6 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
 
-        return view('frontend.pages.home', compact('stats', 'latestPosts', 'featuredProducts', 'featuredProducts', 'abouts', 'services', 'ourClients'));
+        return view('frontend.pages.home', compact('stats', 'latestPosts', 'featuredProducts', 'featuredProducts', 'abouts', 'services', 'ourClients', 'testimonials'));
     }
 }
