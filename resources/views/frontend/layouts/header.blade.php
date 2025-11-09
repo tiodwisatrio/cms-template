@@ -12,8 +12,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('frontend.home') }}" 
-                   class="{{ request()->routeIs('frontend.about') ? 'text-teal-600 font-semibold' : 'text-gray-700 hover:text-teal-600' }} transition duration-200">
+                <a href="{{ route('frontend.abouts.index') }}" 
+                   class="{{ request()->routeIs('frontend.abouts.*') ? 'text-teal-600 font-semibold' : 'text-gray-700 hover:text-teal-600' }} transition duration-200">
                    About
                 </a>
             </li>
@@ -30,8 +30,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('frontend.home') }}" 
-                   class="{{ request()->routeIs('frontend.contact') ? 'text-teal-600 font-semibold' : 'text-gray-700 hover:text-teal-600' }} transition duration-200">
+                <a href="{{ route('frontend.contact.index') }}" 
+                   class="{{ request()->routeIs('frontend.contact*') ? 'text-teal-600 font-semibold' : 'text-gray-700 hover:text-teal-600' }} transition duration-200">
                    Contact
                 </a>
             </li>

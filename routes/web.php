@@ -1,9 +1,17 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Backend\AboutController as BackendAboutController;
+use App\Http\Controllers\Backend\OurClientController as BackendOurClientController;
+use App\Http\Controllers\Backend\CategoryController as BackendCategoryController;
+use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\PostController as BackendPostController;
 use App\Http\Controllers\Backend\ProductController as BackendProductController;
+use App\Http\Controllers\Backend\SettingController as BackendSettingController;
 use App\Http\Controllers\Backend\UserController as BackendUserController;
+use App\Http\Controllers\Frontend\AboutController as FrontendAboutController;
+
+use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
@@ -19,6 +27,9 @@ Route::name('frontend.')->group(function () {
     Route::get('/blog/{slug}', [FrontendPostController::class, 'show'])->name('blog.show');
     Route::get('/products', [FrontendProductController::class, 'index'])->name('products.index');
     Route::get('/products/{slug}', [FrontendProductController::class, 'show'])->name('products.show');
+    Route::get('/abouts', [FrontendAboutController::class, 'index'])->name('abouts.index');
+    Route::get('/contact', [FrontendContactController::class, 'index'])->name('contact.index');
+    Route::post('/contact', [FrontendContactController::class, 'store'])->name('contact.store');
 });
 
 
@@ -45,8 +56,31 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
     // CRUD Products (Backend)
     Route::resource('products', BackendProductController::class);
 
+    // CRUD Categories (Backend)
+    Route::resource('categories', BackendCategoryController::class);
+
     // CRUD Users (khusus admin)
     Route::resource('users', BackendUserController::class)->middleware('can:admin-access');
+    
+    // CRUD Abouts (Backend)
+    Route::resource('abouts', BackendAboutController::class)->middleware('can:admin-access');
+
+    // CRUD Services (Backend)
+    Route::resource('services', \App\Http\Controllers\Backend\ServiceController::class)->middleware('can:admin-access');
+
+    // CRUD Our Clients (Backend)
+    Route::resource('ourclient', BackendOurClientController::class)->middleware('can:admin-access');
+
+    // Contact Messages
+    Route::get('/contacts', [BackendContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{contact}', [BackendContactController::class, 'show'])->name('contacts.show');
+    Route::post('/contacts/{contact}/reply', [BackendContactController::class, 'reply'])->name('contacts.reply');
+    Route::delete('/contacts/{contact}', [BackendContactController::class, 'destroy'])->name('contacts.destroy');
+
+    // Settings
+    Route::get('/settings/email', [BackendSettingController::class, 'emailSettings'])->name('settings.email')->middleware('can:admin-access');
+    Route::post('/settings/email', [BackendSettingController::class, 'updateEmailSettings'])->name('settings.email.update')->middleware('can:admin-access');
+    Route::post('/settings/email/test', [BackendSettingController::class, 'testEmail'])->name('settings.email.test')->middleware('can:admin-access');
 });
 
 require __DIR__.'/auth.php';

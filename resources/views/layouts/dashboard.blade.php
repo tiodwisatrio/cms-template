@@ -41,7 +41,7 @@
         <aside class="w-64 bg-white shadow-md flex flex-col h-screen">
             <!-- Sidebar Header - Fixed di atas -->
             <div class="p-4 font-bold text-lg border-b flex-shrink-0">
-                Dashboard
+                Company Logo
             </div>
             
             <!-- Navigation Area - Scrollable -->
@@ -59,12 +59,37 @@
                        class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('products.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                         <i data-lucide="package" class="w-5 h-5 mr-2"></i> Products
                     </a>
+                    <a href="{{ route('categories.index') }}" 
+                       class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('categories.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                        <i data-lucide="folder" class="w-5 h-5 mr-2"></i> Categories
+                    </a>
+                     <a href="{{ route('abouts.index') }}" 
+                       class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('abouts.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                        <i data-lucide="info" class="w-5 h-5 mr-2"></i> About
+                    </a>
+                    <a href="{{ route('services.index') }}" 
+                          class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('services.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                            <i data-lucide="briefcase" class="w-5 h-5 mr-2"></i> Services
+                    </a>
+                    <a href="{{ route('ourclient.index') }}" 
+                          class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('ourclient.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                            <i data-lucide="users" class="w-5 h-5 mr-2"></i> Our Clients
+                    </a>
+                    <a href="{{ route('contacts.index') }}" 
+                       class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('contacts.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                        <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Contact Messages
+                    </a>
+
 
                       <!-- Users menu hanya untuk admin -->
                     @if(auth()->user()->role === 'admin')
                     <a href="{{ route('users.index') }}" 
                        class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('users.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                         <i data-lucide="users" class="w-5 h-5 mr-2"></i> Users
+                    </a>
+                    <a href="{{ route('settings.email') }}" 
+                       class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('settings.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                        <i data-lucide="settings" class="w-5 h-5 mr-2"></i> Settings
                     </a>
                     @endif
                     
@@ -74,9 +99,6 @@
                   
                     
                     <!-- Tambahan menu untuk testing scroll -->
-                    <a href="#" class="flex items-center py-2 px-3 rounded hover:bg-gray-200 transition-colors duration-200 opacity-50 cursor-not-allowed">
-                        <i data-lucide="folder" class="w-5 h-5 mr-2"></i> Categories <span class="ml-auto text-xs text-gray-400">Soon</span>
-                    </a>
                     <a href="#" class="flex items-center py-2 px-3 rounded hover:bg-gray-200 transition-colors duration-200 opacity-50 cursor-not-allowed">
                         <i data-lucide="bar-chart-3" class="w-5 h-5 mr-2"></i> Analytics <span class="ml-auto text-xs text-gray-400">Soon</span>
                     </a>
@@ -141,9 +163,9 @@
             <!-- Header -->
             <header class="bg-white shadow flex-shrink-0">
                 <div class="max-w-7xl mx-auto py-4 px-6">
-                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    <h1 class="font-semibold text-xl text-gray-800 leading-tight">
                         @yield('header', 'Dashboard')
-                    </h2>
+                    </h1>
                 </div>
             </header>
 

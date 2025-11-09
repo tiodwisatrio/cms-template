@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\About;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,22 @@ class HomeController extends Controller
             'posts' => Post::where('status', 'active')->count(),
             'products' => Product::where('status', 'active')->count(),
             'users' => User::count(),
+            'abouts'=>About::where('status', 'active')->get(),
+            'services'=>Service::where('status', 1)->get(),
+            'ourclients'=>\App\Models\OurClient::where('status', 1)->get(),
         ];
+
+
+        $abouts = About::where('status', 'active')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $services = Service::where('status', 1)->orderBy('order')->get();
+
+        $ourClients = \App\Models\OurClient::where('status', 1)
+            ->orderBy('order', 'asc')
+            ->get();
+
 
         $latestPosts = Post::with(['category', 'user'])
             ->where('status', 'active')
@@ -32,6 +49,6 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
 
-        return view('frontend.pages.home', compact('stats', 'latestPosts', 'featuredProducts', 'featuredProducts'));
+        return view('frontend.pages.home', compact('stats', 'latestPosts', 'featuredProducts', 'featuredProducts', 'abouts', 'services', 'ourClients'));
     }
 }

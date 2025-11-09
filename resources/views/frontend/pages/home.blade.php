@@ -7,13 +7,80 @@
 <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
     <div class="container mx-auto px-4">
         <div class="text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome to Youth Store</h1>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome To CMS Gue</h1>
             <p class="text-xl opacity-90">Discover amazing products and services</p>
         </div>
     </div>
 </div>
 
-<!-- Stats Section -->
+<!-- About Section -->
+<section id="about" class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">About Us</h2>
+            <p class="text-gray-600">Learn more about our mission and values</p>
+        </div>
+
+        @if($abouts && $abouts->count() > 0)
+        <div class="bg-white rounded-lg shadow-md overflow-hidden md:flex md:items-stretch">
+            {{-- Gambar di kiri --}}
+            @if($abouts->first()->image)
+            <div class="md:w-1/2 h-80 md:h-auto flex-shrink-0">
+                <img src="{{ asset('storage/' . $abouts->first()->image) }}" 
+                     alt="{{ $abouts->first()->title }}" 
+                     class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
+            </div>
+            @endif
+
+            {{-- Konten di kanan --}}
+            <div class="md:w-1/2 p-6 flex flex-col justify-center">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">{{ $abouts->first()->title }}</h3>
+                <p class="text-gray-700 leading-relaxed">{{ $abouts->first()->content }}</p>
+            </div>
+        </div>
+        @else
+        <div class="text-center py-12">
+            <i data-lucide="info" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+            <p class="text-gray-600">About section is not available at the moment.</p>
+        </div>
+        @endif
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Services</h2>
+            <p class="text-gray-600">Explore the services we offer to our customers</p>
+        </div>
+
+        @if($services && $services->count() > 0)
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach($services as $service)
+            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-lg transition-shadow">
+                <!-- Ambil image service -->
+                @if($service->image)
+                    <div class="h-40 bg-gray-200 mb-4 flex items-center justify-center">
+                        <img src="{{ asset('storage/' . $service->image) }}" 
+                             alt="{{ $service->name }}" 
+                             class="w-full h-full object-cover rounded-lg">
+                    </div>
+                @endif
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $service->name }}</h3>
+                <p class="text-gray-600">{{ Str::limit($service->description, 120) }}</p>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center py-12">
+            <i data-lucide="settings" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+            <p class="text-gray-600">No services available at the moment.</p>
+        </div>
+        @endif
+    </div>
+</section>
+
 
 
 <!-- Latest Posts Section -->
@@ -119,6 +186,37 @@
         <div class="text-center py-12">
             <i data-lucide="package" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
             <p class="text-gray-600">No featured products available.</p>
+        </div>
+        @endif
+    </div>
+</section>
+
+<!-- Buatkan section slider dengan style minimalist, smooth, clean, and modern untuk our client, hanya mengambil gambar nya saja, harus rapih -->
+<section id="our-clients" class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Clients</h2>
+            <p class="text-gray-600">Trusted by these amazing companies</p>
+        </div>
+
+        @if($ourClients && $ourClients->count() > 0)
+        <div class="flex items-center justify-center space-x-8 overflow-x-auto py-4">
+            @foreach($ourClients as $client)
+            <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center bg-white rounded-lg shadow-md p-4">
+                @if($client->image)
+                    <img src="{{ asset('storage/' . $client->image) }}" 
+                         alt="{{ $client->name }}" 
+                         class="max-w-full max-h-full object-contain">
+                @else
+                    <i data-lucide="users" class="w-12 h-12 text-gray-400"></i>
+                @endif
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center py-12">
+            <i data-lucide="users" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+            <p class="text-gray-600">No clients to display at the moment.</p>
         </div>
         @endif
     </div>

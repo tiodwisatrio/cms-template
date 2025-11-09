@@ -14,7 +14,10 @@ class UpdateUserRequest extends FormRequest
     public function authorize(): bool
     {
         // Admin can edit any user, users can edit themselves
-        return auth()->user()->role === 'admin' || auth()->id() === $this->route('user')->id;
+        $routeUser = $this->route('user');
+        $routeUserId = is_object($routeUser) ? $routeUser->id : $routeUser;
+
+        return auth()->user()->role === 'admin' || auth()->id() === (int) $routeUserId;
     }
 
     /**
@@ -22,7 +25,8 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('user')->id;
+        $routeUser = $this->route('user');
+        $userId = is_object($routeUser) ? $routeUser->id : $routeUser;
 
         return [
             'name' => ['required', 'string', 'max:255'],

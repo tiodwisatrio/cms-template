@@ -1,37 +1,162 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-     <!-- Card: Welcome -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold">Welcome</h2>
-            <p class="mt-2">Halo, <span class="font-bold">{{ auth()->user()->name }}</span>! 🎉</p>
-        </div>
-
-        <!-- Card: Jumlah User -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold">Total Users</h2>
-            <p class="text-3xl font-bold mt-2">{{ \App\Models\User::count() }}</p>
-        </div>
-
-        <!-- Card: Jumlah Post -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold">Total Posts</h2>
-            <p class="text-3xl font-bold mt-2">{{ \App\Models\Post::count() }}</p>
-        </div>
-
-        <!-- Card: Jumlah Product -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold">Total Products</h2>
-            <p class="text-3xl font-bold mt-2">{{ \App\Models\Product::count() }}</p>
+<div class="space-y-6">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-teal-500 to-blue-600 rounded-2xl shadow-lg p-8 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">Welcome back, {{ auth()->user()->name }}! 👋</h1>
+                <p class="text-teal-50 text-lg">Here's what's happening with your CMS today.</p>
+            </div>
+            <div class="hidden md:block">
+                <i data-lucide="sparkles" class="w-20 h-20 text-white opacity-20"></i>
+            </div>
         </div>
     </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Users Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">Users</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\User::count() }}</p>
+        </div>
+
+        <!-- Posts Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="file-text" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">Posts</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Post::count() }}</p>
+        </div>
+
+        <!-- Products Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="package" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">Products</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Product::count() }}</p>
+        </div>
+
+        <!-- Categories Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="folder" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">Categories</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Category::count() }}</p>
+        </div>
+
+        <!-- About Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="info" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">About Pages</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\About::count() }}</p>
+        </div>
+
+        <!-- Services Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="settings" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">Services</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Service::count() }}</p>
+        </div>
+
+        <!-- Our Clients Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">Our Clients</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\OurClient::count() }}</p>
+        </div>
+
+        <!-- Contact Messages Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="mail" class="w-6 h-6 text-white"></i>
+                </div>
+                @php
+                    $newMessages = \App\Models\ContactMessage::where('status', 'new')->count();
+                @endphp
+                @if($newMessages > 0)
+                    <span class="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-full">{{ $newMessages }} New</span>
+                @else
+                    <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+                @endif
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">Messages</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\ContactMessage::count() }}</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <i data-lucide="zap" class="w-5 h-5 mr-2 text-teal-600"></i>
+            Quick Actions
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a href="{{ route('posts.create') }}" 
+               class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-teal-500 hover:bg-teal-50 transition-all group">
+                <i data-lucide="plus-circle" class="w-8 h-8 text-gray-400 group-hover:text-teal-600 mb-2"></i>
+                <span class="text-sm font-medium text-gray-600 group-hover:text-teal-600">New Post</span>
+            </a>
+            <a href="{{ route('products.create') }}" 
+               class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-green-500 hover:bg-green-50 transition-all group">
+                <i data-lucide="package-plus" class="w-8 h-8 text-gray-400 group-hover:text-green-600 mb-2"></i>
+                <span class="text-sm font-medium text-gray-600 group-hover:text-green-600">New Product</span>
+            </a>
+            <a href="{{ route('contacts.index') }}" 
+               class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all group">
+                <i data-lucide="inbox" class="w-8 h-8 text-gray-400 group-hover:text-blue-600 mb-2"></i>
+                <span class="text-sm font-medium text-gray-600 group-hover:text-blue-600">View Messages</span>
+            </a>
+            <a href="{{ route('settings.email') }}" 
+               class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-purple-500 hover:bg-purple-50 transition-all group">
+                <i data-lucide="settings-2" class="w-8 h-8 text-gray-400 group-hover:text-purple-600 mb-2"></i>
+                <span class="text-sm font-medium text-gray-600 group-hover:text-purple-600">Settings</span>
+            </a>
+        </div>
+    </div>
+</div>
 @endsection
+
 @push('scripts')
-    <script>
-        console.log("Dashboard loaded");
-    </script>
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+</script>
 @endpush
+

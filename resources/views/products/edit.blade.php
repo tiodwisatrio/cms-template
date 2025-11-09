@@ -50,7 +50,7 @@
                 placeholder="Select Category"
                 :options="$categories->pluck('name', 'id')"
                 :required="true"
-                :selected="old('category_id', $product->category_id)" />
+                :value="old('category_id', $product->category_id)" />
 
             <x-forms.form-input 
                 name="price"
@@ -180,7 +180,7 @@
                     'out_of_stock' => 'Out of Stock'
                 ]"
                 :required="true"
-                :selected="old('status', $product->status)" />
+                :value="old('status', $product->status)" />
 
             <x-forms.form-input 
                 name="is_featured"
