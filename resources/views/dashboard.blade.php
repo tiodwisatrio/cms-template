@@ -18,7 +18,7 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Users Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <a href="{{ route('users.index') }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow block">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
                     <i data-lucide="users" class="w-6 h-6 text-white"></i>
@@ -27,10 +27,10 @@
             </div>
             <h3 class="text-gray-600 text-sm font-medium mb-1">Users</h3>
             <p class="text-3xl font-bold text-gray-900">{{ \App\Models\User::count() }}</p>
-        </div>
+        </a>
 
         <!-- Posts Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <a href="{{ route('posts.index') }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow block">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                     <i data-lucide="file-text" class="w-6 h-6 text-white"></i>
@@ -39,10 +39,10 @@
             </div>
             <h3 class="text-gray-600 text-sm font-medium mb-1">Posts</h3>
             <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Post::count() }}</p>
-        </div>
+        </a>
 
         <!-- Products Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <a href="{{ route('products.index') }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow block">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center">
                     <i data-lucide="package" class="w-6 h-6 text-white"></i>
@@ -51,34 +51,22 @@
             </div>
             <h3 class="text-gray-600 text-sm font-medium mb-1">Products</h3>
             <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Product::count() }}</p>
-        </div>
-
-        <!-- Categories Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
-                    <i data-lucide="folder" class="w-6 h-6 text-white"></i>
-                </div>
-                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
-            </div>
-            <h3 class="text-gray-600 text-sm font-medium mb-1">Categories</h3>
-            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Category::count() }}</p>
-        </div>
+        </a>
 
         <!-- About Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <a href="{{ route('abouts.index') }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow block">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg flex items-center justify-center">
                     <i data-lucide="info" class="w-6 h-6 text-white"></i>
                 </div>
                 <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
             </div>
-            <h3 class="text-gray-600 text-sm font-medium mb-1">About Pages</h3>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">About</h3>
             <p class="text-3xl font-bold text-gray-900">{{ \App\Models\About::count() }}</p>
-        </div>
+        </a>
 
         <!-- Services Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <a href="{{ route('services.index') }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow block">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center">
                     <i data-lucide="settings" class="w-6 h-6 text-white"></i>
@@ -87,10 +75,10 @@
             </div>
             <h3 class="text-gray-600 text-sm font-medium mb-1">Services</h3>
             <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Service::count() }}</p>
-        </div>
+        </a>
 
         <!-- Our Clients Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <a href="{{ route('ourclient.index') }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow block">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center">
                     <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
@@ -99,10 +87,10 @@
             </div>
             <h3 class="text-gray-600 text-sm font-medium mb-1">Our Clients</h3>
             <p class="text-3xl font-bold text-gray-900">{{ \App\Models\OurClient::count() }}</p>
-        </div>
+        </a>
 
         <!-- Contact Messages Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <a href="{{ route('contacts.index') }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow block">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
                     <i data-lucide="mail" class="w-6 h-6 text-white"></i>
@@ -118,8 +106,34 @@
             </div>
             <h3 class="text-gray-600 text-sm font-medium mb-1">Messages</h3>
             <p class="text-3xl font-bold text-gray-900">{{ \App\Models\ContactMessage::count() }}</p>
-        </div>
+        </a>
+
+        <!-- Testimonials Card -->
+        <a href="{{ route('testimonials.index') }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow block">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="message-square" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+            </div>
+            <h3 class="text-gray-600 text-sm font-medium mb-1">Testimonials</h3>
+            <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Testimonial::count() }}</p>
+        </a>
     </div>
+
+    <!-- Testimonials Card -->
+   
+    <!-- <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center">
+                <i data-lucide="message-square" class="w-6 h-6 text-white"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Total</span>
+        </div>
+        <h3 class="text-gray-600 text-sm font-medium mb-1">Testimonials</h3>
+        <p class="text-3xl font-bold text-gray-900">{{ \App\Models\Testimonial::count() }}</p>
+    </div> -->
+   
 
     <!-- Quick Actions -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
