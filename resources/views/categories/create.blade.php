@@ -61,24 +61,15 @@
                     @enderror
                 </div>
 
-                <!-- Type -->
+                <!-- Type (hidden, set from parent menu) -->
+                <input type="hidden" name="type" value="{{ request('type', 'post') }}">
                 <div>
-                    <label for="type" class="block text-sm font-medium text-gray-700 mb-2">
-                        Category Type <span class="text-red-500">*</span>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Category Type
                     </label>
-                    <select id="type" 
-                            name="type" 
-                            required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 @error('type') border-red-500 @enderror">
-                        <option value="">Select Type</option>
-                        <option value="post" {{ old('type') === 'post' ? 'selected' : '' }}>Post</option>
-                        <option value="product" {{ old('type') === 'product' ? 'selected' : '' }}>Product</option>
-                        <option value="portfolio" {{ old('type') === 'portfolio' ? 'selected' : '' }}>Portfolio</option>
-                        <option value="general" {{ old('type') === 'general' ? 'selected' : '' }}>General</option>
-                    </select>
-                    @error('type')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    <span class="inline-block px-3 py-1 rounded bg-gray-100 text-gray-700 text-sm font-semibold">
+                        {{ ucfirst(request('type', 'post')) }}
+                    </span>
                 </div>
 
                 <!-- Description -->

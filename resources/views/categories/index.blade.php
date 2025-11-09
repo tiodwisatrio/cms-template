@@ -11,7 +11,7 @@
             <h2 class="text-2xl font-bold text-gray-800">Manage Categories</h2>
             <p class="text-gray-600 mt-1">Organize your content with categories</p>
         </div>
-        <a href="{{ route('categories.create') }}" 
+        <a href="{{ route('categories.create', ['type' => request('type', 'post')]) }}" 
            class="inline-flex items-center px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg shadow-md transition duration-200">
             <i data-lucide="plus" class="w-5 h-5 mr-2"></i>
             Add Category
@@ -30,18 +30,6 @@
                    placeholder="Search categories..." 
                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
         </div>
-
-        <!-- Type Filter -->
-        <div class="min-w-[150px]">
-            <select name="type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-                <option value="all" {{ request('type') === 'all' ? 'selected' : '' }}>All</option>
-                <option value="post" {{ request('type') === 'post' ? 'selected' : '' }}>Post</option>
-                <option value="product" {{ request('type') === 'product' ? 'selected' : '' }}>Product</option>
-                <option value="portfolio" {{ request('type') === 'portfolio' ? 'selected' : '' }}>Portfolio</option>
-                <option value="general" {{ request('type') === 'general' ? 'selected' : '' }}>General</option>
-            </select>
-        </div>
-
         <!-- Status Filter -->
         <div class="min-w-[150px]">
             <select name="status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
@@ -50,13 +38,13 @@
                 <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
             </select>
         </div>
-
+        <input type="hidden" name="type" value="{{ request('type', 'post') }}">
         <!-- Buttons -->
         <button type="submit" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition duration-200">
             <i data-lucide="search" class="w-4 h-4 inline mr-1"></i>
             Filter
         </button>
-        <a href="{{ route('categories.index') }}" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition duration-200">
+        <a href="{{ route('categories.index', ['type' => request('type', 'post')]) }}" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition duration-200">
             <i data-lucide="x" class="w-4 h-4 inline mr-1"></i>
             Reset
         </a>
@@ -93,13 +81,15 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                @forelse($categories as $category)
+                @php
+                    $filtered = $categories->where('type', request('type', 'post'));
+                @endphp
+                @forelse($filtered as $category)
                     <tr class="hover:bg-gray-50 transition-colors">
                         <!-- Order -->
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $category->sort_order }}
                         </td>
-
                         <!-- Category Info -->
                         <td class="px-6 py-4">
                             <div class="flex items-center">
@@ -117,7 +107,6 @@
                                 </div>
                             </div>
                         </td>
-
                         <!-- Type Badge -->
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
@@ -128,7 +117,6 @@
                                 {{ ucfirst($category->type) }}
                             </span>
                         </td>
-
                         <!-- Items Count -->
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center gap-3">
@@ -147,7 +135,6 @@
                                 @endif
                             </div>
                         </td>
-
                         <!-- Status -->
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($category->is_active)
@@ -162,16 +149,15 @@
                                 </span>
                             @endif
                         </td>
-
                         <!-- Actions -->
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('categories.edit', $category) }}" 
+                                <a href="{{ route('categories.edit', ['category' => $category->id, 'type' => request('type', 'post')]) }}" 
                                    class="text-teal-600 hover:text-teal-900 transition-colors"
                                    title="Edit">
                                     <i data-lucide="edit" class="w-4 h-4"></i>
                                 </a>
-                                <form action="{{ route('categories.destroy', $category) }}" 
+                                <form action="{{ route('categories.destroy', ['category' => $category->id, 'type' => request('type', 'post')]) }}" 
                                       method="POST" 
                                       class="inline"
                                       onsubmit="return confirm('Are you sure you want to delete this category?');">
@@ -191,8 +177,8 @@
                         <td colspan="6" class="px-6 py-12 text-center">
                             <div class="flex flex-col items-center justify-center text-gray-400">
                                 <i data-lucide="folder-x" class="w-12 h-12 mb-3"></i>
-                                <p class="text-lg font-medium">No categories found</p>
-                                <p class="text-sm mt-1">Create your first category to get started</p>
+                                <p class="text-lg font-medium">No categories found for this menu</p>
+                                <p class="text-sm mt-1">Create your first category for this parent menu to get started</p>
                             </div>
                         </td>
                     </tr>
