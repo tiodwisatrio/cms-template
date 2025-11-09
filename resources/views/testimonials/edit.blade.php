@@ -1,46 +1,58 @@
 @extends('layouts.dashboard')
 
 @section('header')
-    Edit Our Client
+    Edit Testimonial
 @endsection
 
 @section('content')
 <x-forms.crud-form 
-    title="Edit Client"
-    :action="route('ourclient.update', $ourclient->id)"
+    title="Edit Testimonial"
+    :action="route('testimonials.update', $testimonial->id)"
     method="POST"
-    submit-text="Update Client"
-    :cancel-url="route('ourclient.index')"
+    submit-text="Update Testimonial"
+    :cancel-url="route('testimonials.index')"
     enctype="multipart/form-data">
-    
+
     @method('PUT')
 
     <!-- Basic Information -->
-    <x-forms.form-section title="Client Information">
+    <x-forms.form-section title="Testimonial Information">
         <div class="grid grid-cols-1 gap-6">
-            <!-- Client Name -->
+            <!-- Name -->
             <x-forms.form-input 
                 name="name"
                 label="Client Name"
-                icon="type"
-                placeholder="Enter client name"
-                :value="old('name', $ourclient->name)"
+                icon="user"
+                placeholder="Enter client's name"
+                :value="old('name', $testimonial->name)"
                 :required="true" />
 
-            <!-- Display Order -->
+            <!-- Content -->
+            <x-forms.form-input 
+                name="content"
+                label="Testimonial Content"
+                type="textarea"
+                icon="message-square"
+                placeholder="Enter testimonial text..."
+                :rows="5"
+                :value="old('content', $testimonial->content)"
+                :required="true"
+                help="You can add a short testimonial or feedback message." />
+
+            <!-- Order -->
             <x-forms.form-input 
                 name="order"
                 label="Display Order"
                 type="number"
                 icon="list-ordered"
                 placeholder="Set display order"
-                :value="old('order', $ourclient->order)"
-                help="Clients with lower numbers appear first." />
+                :value="old('order', $testimonial->order)"
+                help="Lower numbers appear first." />
         </div>
     </x-forms.form-section>
 
     <!-- Image Section -->
-    <x-forms.form-section title="Client Logo / Image">
+    <x-forms.form-section title="Client Image (Optional)">
         <div class="grid grid-cols-1 gap-6">
             <div>
                 <x-forms.form-input 
@@ -55,9 +67,9 @@
                 <div class="mt-4 relative" id="image-preview-container">
                     <p class="text-sm text-gray-600 mb-2 font-medium">Current Image:</p>
                     <div class="relative inline-block border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                        @if($ourclient->image)
+                        @if($testimonial->image)
                             <img id="image-preview" 
-                                 src="{{ asset('storage/' . $ourclient->image) }}" 
+                                 src="{{ asset('storage/' . $testimonial->image) }}" 
                                  alt="Current Image" 
                                  class="max-h-48 rounded-lg">
                         @else
@@ -83,7 +95,7 @@
                 <input type="checkbox" 
                        name="status" 
                        value="1"
-                       {{ old('status', $ourclient->status) ? 'checked' : '' }}
+                       {{ old('status', $testimonial->status) ? 'checked' : '' }}
                        class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
                 <span class="text-sm text-gray-700">Active</span>
             </label>
@@ -97,7 +109,7 @@
 <script>
     lucide.createIcons();
 
-    // Image preview + remove button
+    // Image preview functionality
     document.addEventListener("DOMContentLoaded", function () {
         const imageInput = document.querySelector('input[name="image"]');
         const previewContainer = document.getElementById('image-preview-container');

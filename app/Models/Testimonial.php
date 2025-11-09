@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Testimonial extends Model
+{
+    protected $fillable = [
+        'name',
+        'content',
+        'image',
+        'status',
+        'order',
+    ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+}

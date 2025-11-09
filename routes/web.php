@@ -71,6 +71,9 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
     // CRUD Our Clients (Backend)
     Route::resource('ourclient', BackendOurClientController::class)->middleware('can:admin-access');
 
+    // CRUD Testimonials (Backend)
+    Route::resource('testimonials', \App\Http\Controllers\Backend\TestimonialController::class)->middleware('can:admin-access');
+
     // Contact Messages
     Route::get('/contacts', [BackendContactController::class, 'index'])->name('contacts.index');
     Route::get('/contacts/{contact}', [BackendContactController::class, 'show'])->name('contacts.show');

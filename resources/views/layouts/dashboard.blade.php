@@ -75,6 +75,10 @@
                           class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('ourclient.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                             <i data-lucide="users" class="w-5 h-5 mr-2"></i> Our Clients
                     </a>
+                    <a href="{{ route('testimonials.index') }}" 
+                          class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('testimonials.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                            <i data-lucide="message-square" class="w-5 h-5 mr-2"></i> Testimonials
+                    </a>
                     <a href="{{ route('contacts.index') }}" 
                        class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('contacts.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                         <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Contact Messages
@@ -161,13 +165,7 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col h-screen">
             <!-- Header -->
-            <header class="bg-white shadow flex-shrink-0">
-                <div class="max-w-7xl mx-auto py-4 px-6">
-                    <h1 class="font-semibold text-xl text-gray-800 leading-tight">
-                        @yield('header', 'Dashboard')
-                    </h1>
-                </div>
-            </header>
+      
 
             <!-- Page Content -->
             <main class="flex-1 p-6 overflow-y-auto">
