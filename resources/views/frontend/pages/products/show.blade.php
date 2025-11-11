@@ -113,10 +113,7 @@
                             <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
                             <span>{{ $product->created_at->format('M d, Y') }}</span>
                         </div>
-                        <div class="flex items-center">
-                            <i data-lucide="eye" class="w-4 h-4 mr-2"></i>
-                            <span>{{ $product->view_count ?? 0 }} views</span>
-                        </div>
+                       
                     </div>
                     
                     <!-- Description -->

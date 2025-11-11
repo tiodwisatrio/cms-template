@@ -22,6 +22,15 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             ProductSeeder::class,
         ]);
+            // Seed category for team division
+            \App\Models\Category::firstOrCreate([
+                'type' => 'team',
+                'name' => 'Divisi Team',
+            ], [
+                'slug' => 'divisi-team',
+                'description' => 'Kategori untuk divisi team',
+                'status' => 1,
+            ]);
         
         $this->command->info('✅ Database seeding completed successfully!');
         $this->command->info('📊 Summary:');

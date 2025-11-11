@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Category::withCount(['posts', 'products']);
+    $query = Category::withCount(['posts', 'products', 'teams']);
 
         // Filter by type
         if ($request->has('type') && $request->type !== 'all') {
@@ -57,7 +57,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:post,product,portfolio,general',
+            'type' => 'required|in:post,product,portfolio,general,team',
             'slug' => 'nullable|string|max:255|unique:categories,slug',
             'description' => 'nullable|string',
             'color' => 'nullable|string|max:7',
@@ -71,7 +71,7 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-        return redirect()->route('categories.index')
+        return redirect()->route('categories.index', ['type' => $validated['type']])
             ->with('success', 'Category created successfully.');
     }
 
@@ -90,7 +90,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:post,product,portfolio,general',
+            'type' => 'required|in:post,product,portfolio,general,team',
             'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
             'color' => 'nullable|string|max:7',
@@ -104,7 +104,7 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
-        return redirect()->route('categories.index')
+        return redirect()->route('categories.index', ['type' => $validated['type']])
             ->with('success', 'Category updated successfully.');
     }
 

@@ -58,6 +58,9 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
 
     // CRUD Categories (Backend)
     Route::resource('categories', BackendCategoryController::class);
+    
+        // CRUD Categories for Teams (Backend)
+        Route::resource('team/categories', App\Http\Controllers\Backend\TeamCategoryController::class, ['as' => 'team.categories']);
 
     // CRUD Users (khusus admin)
     Route::resource('users', BackendUserController::class)->middleware('can:admin-access');
@@ -71,11 +74,18 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
     // CRUD Our Clients (Backend)
     Route::resource('ourclient', BackendOurClientController::class)->middleware('can:admin-access');
 
+    // CRUD Our Values (Backend)
+    Route::resource('ourvalues', \App\Http\Controllers\Backend\OurValueController::class)->middleware('can:admin-access');
+
     // CRUD Testimonials (Backend)
     Route::resource('testimonials', \App\Http\Controllers\Backend\TestimonialController::class)->middleware('can:admin-access');
 
+    // CRUD Teams (Backend)
+    Route::resource('teams', \App\Http\Controllers\Backend\TeamController::class)->middleware('can:admin-access');
+
     // Contact Messages
     Route::get('/contacts', [BackendContactController::class, 'index'])->name('contacts.index');
+   
     Route::get('/contacts/{contact}', [BackendContactController::class, 'show'])->name('contacts.show');
     Route::post('/contacts/{contact}/reply', [BackendContactController::class, 'reply'])->name('contacts.reply');
     Route::delete('/contacts/{contact}', [BackendContactController::class, 'destroy'])->name('contacts.destroy');

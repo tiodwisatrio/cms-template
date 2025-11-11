@@ -8,6 +8,7 @@ use App\Models\About;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Service;
+use App\Models\Team;
 use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,6 +29,12 @@ class HomeController extends Controller
 
         $abouts = About::where('status', 'active')
             ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Buatkan untuk menampilkan team beserta divisinya
+       $teams = Team::with('category')
+            ->where('status', 1)
+            ->orderBy('created_at', 'asc')
             ->get();
 
         $services = Service::where('status', 1)->orderBy('order')->get();
@@ -54,6 +61,6 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
 
-        return view('frontend.pages.home', compact('stats', 'latestPosts', 'featuredProducts', 'featuredProducts', 'abouts', 'services', 'ourClients', 'testimonials'));
+        return view('frontend.pages.home', compact('stats', 'latestPosts', 'featuredProducts', 'featuredProducts', 'abouts', 'services', 'ourClients', 'testimonials', 'teams'));
     }
 }

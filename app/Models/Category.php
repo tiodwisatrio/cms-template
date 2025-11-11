@@ -55,6 +55,11 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function teams(): HasMany
+    {
+        return $this->hasMany(Team::class);
+    }
+
     // Scopes
     public function scopeActive($query)
     {
@@ -96,11 +101,5 @@ class Category extends Model
     public function getPostsCountAttribute()
     {
         return $this->posts()->count();
-    }
-
-    // Route key name
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 }

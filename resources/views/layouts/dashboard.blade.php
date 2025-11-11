@@ -89,6 +89,10 @@
                           class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('services.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                             <i data-lucide="briefcase" class="w-5 h-5 mr-2"></i> Services
                     </a>
+                    <a href="{{route('ourvalues.index')}}" 
+                          class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('ourvalues.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                            <i data-lucide="star" class="w-5 h-5 mr-2"></i> Our Values
+                    </a>
                     <a href="{{ route('ourclient.index') }}" 
                           class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('ourclient.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                             <i data-lucide="users" class="w-5 h-5 mr-2"></i> Our Clients
@@ -97,6 +101,21 @@
                           class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('testimonials.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                             <i data-lucide="message-square" class="w-5 h-5 mr-2"></i> Testimonials
                     </a>
+                   <!-- Teams dengan submenu categories -->
+                     <div x-data="{ open: {{ request('type', '') === 'team' || request()->routeIs('team.*') ? 'true' : 'false' }} }" class="space-y-1">
+                        <button @click="open = !open" type="button" class="flex items-center w-full py-2 px-3 rounded transition-colors duration-200 focus:outline-none {{ (request()->routeIs('posts.*') || (request()->routeIs('categories.*') && request('type') === 'post')) ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i> Our Team
+                            <svg :class="{'rotate-90': open}" class="ml-auto h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                        <div x-show="open" class="pl-8 space-y-1">
+                            <a href="{{ route('teams.index') }}" class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('team.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                                <i data-lucide="list" class="w-4 h-4 mr-2"></i> All Teams
+                            </a>
+                            <a href="{{ route('categories.index', ['type' => 'team']) }}" class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ (request()->routeIs('categories.*') && request('type') === 'team') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                                <i data-lucide="folder" class="w-4 h-4 mr-2"></i> Categories
+                            </a>
+                        </div>
+                    </div>
                     <a href="{{ route('contacts.index') }}" 
                        class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('contacts.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                         <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Contact Messages

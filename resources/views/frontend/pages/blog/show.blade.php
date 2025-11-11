@@ -72,8 +72,8 @@
             @endif
             
             <!-- Article Body -->
-            <div class="prose prose-lg max-w-none">
-                {!! nl2br(e($post->content)) !!}
+            <div class="[&>ul]:list-disc [&>ul]:ms-6 [&>ol]:list-decimal [&>ol]:ms-6 [&>li]:mb-1">
+                {!! $post->content !!}
             </div>
         </div>
     </div>

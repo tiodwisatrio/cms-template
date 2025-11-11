@@ -120,85 +120,53 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
                 @foreach($products as $product)
-                    <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow group">
+                    <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col">
                         <!-- Product Image -->
-                        <div class="h-56 bg-gray-300 relative overflow-hidden">
+                        <div class="h-56 bg-gray-100 flex items-center justify-center relative">
                             @if($product->featured_image)
                                 <img 
                                     src="{{ asset('storage/' . $product->featured_image) }}" 
                                     alt="{{ $product->name }}"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    class="w-full h-full object-cover rounded-t-xl"
                                 >
                             @else
-                                <div class="w-full h-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                                <div class="w-full h-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
                                     <i data-lucide="package" class="w-16 h-16 text-white opacity-50"></i>
                                 </div>
                             @endif
-                            
                             <!-- Category Badge -->
                             @if($product->category)
-                                <div class="absolute top-3 left-3">
-                                    <span class="px-2 py-1 bg-green-600 text-white text-xs font-medium rounded-full shadow-lg">
-                                        {{ $product->category->name }}
-                                    </span>
-                                </div>
+                                <span class="absolute top-3 left-3 px-2 py-1 bg-teal-600 text-white text-xs rounded-full shadow">{{ $product->category->name }}</span>
                             @endif
-                            
-                            <!-- Price Badge -->
-                            @if($product->price)
-                                <div class="absolute top-3 right-3">
-                                    <span class="px-2 py-1 bg-blue-600 text-white text-sm font-bold rounded-lg shadow-lg">
-                                        {{ $product->formatted_price }}
-                                    </span>
-                                </div>
-                            @endif
-
-                            <!-- Quick View Overlay -->
-                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                <a 
-                                    href="{{ route('frontend.products.show', $product->slug) }}"
-                                    class="px-4 py-2 bg-white text-gray-900 rounded-lg font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
-                                >
-                                    Quick View
-                                </a>
-                            </div>
+                          
                         </div>
-                        
                         <!-- Content -->
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 line-clamp-2">
-                                <a href="{{ route('frontend.products.show', $product->slug) }}" class="hover:text-green-600 transition-colors">
-                                    {{ $product->name }}
-                                </a>
-                            </h3>
-                            
-                            <!-- Meta Info -->
-                            <div class="flex items-center text-gray-500 text-sm mb-3">
-                                <i data-lucide="user" class="w-4 h-4 mr-1"></i>
-                                <span class="mr-4">{{ $product->user->name }}</span>
-                                <i data-lucide="calendar" class="w-4 h-4 mr-1"></i>
-                                <span>{{ $product->created_at->format('M d, Y') }}</span>
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+                                    <a href="{{ route('frontend.products.show', $product->slug) }}" class="hover:text-teal-600 transition-colors">
+                                        {{ $product->name }}
+                                    </a>
+                                </h3>
+                                <!-- Meta Info -->
+                                <div class="flex items-center text-gray-400 text-xs mb-3">
+                                    <i data-lucide="user" class="w-4 h-4 mr-1"></i>
+                                    <span class="mr-4">{{ $product->user->name }}</span>
+                                    <i data-lucide="calendar" class="w-4 h-4 mr-1"></i>
+                                    <span>{{ $product->created_at->format('M d, Y') }}</span>
+                                </div>
+                                <!-- Description -->
+                                <!-- <p class="text-gray-500 mb-4 line-clamp-2">{{ Str::limit(strip_tags($product->description), 80) }}</p> -->
                             </div>
-                            
-                            <!-- Description -->
-                            <p class="text-gray-600 mb-4 line-clamp-3">
-                                {{ Str::limit(strip_tags($product->description), 100) }}
-                            </p>
-                            
-                            <!-- Price & Action -->
-                            <div class="flex items-center justify-between">
-                                @if($product->price)
-                                    <div class="text-2xl font-bold text-green-600">
-                                        {{ $product->formatted_price }}
-                                    </div>
-                                @endif
-                                
-                                <a 
-                                    href="{{ route('frontend.products.show', $product->slug) }}"
-                                    class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                                >
+                            <!-- Price -->
+                            @if($product->price)
+                                <div class="text-xl font-bold text-teal-600 mb-3">{{ $product->formatted_price }}</div>
+                            @endif
+                            <!-- Action Button -->
+                            <div class="">
+                                <a href="{{ route('frontend.products.show', $product->slug) }}" class="w-full flex justify-center items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-sm font-semibold shadow">
                                     View Details
-                                    <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                                    <i data-lucide="arrow-right" class="w-5 h-5 ml-1"></i>
                                 </a>
                             </div>
                         </div>

@@ -44,4 +44,41 @@
         @endif
     </div>
 </div>
+
+<!-- Our Values Section -->
+    <div class="container mx-auto px-4 mt-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Our Values</h2>
+        @if($ourvalues->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @foreach($ourvalues as $value)
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
+                        @if($value->image)
+                            <img src="{{ asset('storage/' . $value->image) }}" 
+                                alt="{{ $value->name }}" 
+                                class="w-24 h-24 mx-auto mb-4 object-cover rounded-full">
+                        @endif
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $value->name }}</h3>
+                        <p class="text-gray-600">{{ $value->description }}</p>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="py-16 text-center">
+                <i data-lucide="info" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">No Values Found</h3>
+                <p class="text-gray-500">Our company values are currently unavailable. Please check back later.</p>
+            </div>
+        @endif
+    </div>
+
+    <div class="py-16 bg-gray-800 mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4 text-white">Ready to Get Started?</h2>
+            <p class="text-xl text-gray-300 mb-8">Join us and explore amazing content and products</p>
+            <a href="{{ route('frontend.products.index') }}" 
+            class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700">
+               View Products
+            </a>
+        </div>
+    </div>
 @endsection

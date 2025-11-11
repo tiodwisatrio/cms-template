@@ -144,38 +144,36 @@
         @if($featuredProducts->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             @foreach($featuredProducts as $product)
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div class="h-48 bg-gray-200 flex items-center justify-center">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col">
+                <div class="h-48 bg-gray-100 flex items-center justify-center relative">
                     @if($product->featured_image)
                         <img src="{{ asset('storage/' . $product->featured_image) }}" 
                              alt="{{ $product->name }}" 
-                             class="w-full h-full object-cover">
+                             class="w-full h-full object-cover rounded-t-xl">
                     @else
-                        <i data-lucide="package" class="w-12 h-12 text-gray-400"></i>
+                        <i data-lucide="package" class="w-16 h-16 text-gray-300"></i>
+                    @endif
+                    @if($product->category)
+                        <span class="absolute top-3 left-3 px-2 py-1 bg-teal-600 text-white text-xs rounded-full shadow">{{ $product->category->name }}</span>
                     @endif
                 </div>
-                <div class="p-6">
-                    <div class="flex items-center mb-2">
-                        @if($product->category)
-                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                                {{ $product->category->name }}
-                            </span>
-                        @endif
-                        <i data-lucide="star" class="w-4 h-4 text-yellow-500 ml-auto"></i>
+                <div class="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{{ $product->name }}</h3>
+                        <p class="text-gray-500 text-sm mb-4 line-clamp-2">{{ Str::limit(strip_tags($product->description), 80) }}</p>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $product->name }}</h3>
-                    <p class="text-gray-600 text-sm mb-4">{{ Str::limit($product->description, 80) }}</p>
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between mt-auto">
                         <div>
                             @if($product->sale_price)
-                                <span class="text-lg font-bold text-green-600">{{ $product->formatted_sale_price }}</span>
-                                <span class="text-sm text-gray-500 line-through ml-1">{{ $product->formatted_price }}</span>
+                                <span class="text-lg font-bold text-teal-600">{{ $product->formatted_sale_price }}</span>
+                                <span class="text-sm text-gray-400 line-through ml-1">{{ $product->formatted_price }}</span>
                             @else
                                 <span class="text-lg font-bold text-gray-900">{{ $product->formatted_price }}</span>
                             @endif
                         </div>
-                        <a href="{{ route('frontend.products.show', $product) }}" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                        <a href="{{ route('frontend.products.show', $product->slug) }}" class="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-sm font-semibold shadow">
                             View
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
                         </a>
                     </div>
                 </div>
@@ -191,7 +189,40 @@
     </div>
 </section>
 
-<!-- Buatkan section slider dengan style minimalist, smooth, clean, and modern untuk our client, hanya mengambil gambar nya saja, harus rapih -->
+<!-- Section Teams -->
+ <section id="teams" class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
+            <p class="text-gray-600">The people behind our success</p>
+        </div>
+
+        @if($teams && $teams->count() > 0)
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach($teams as $team)
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                @if($team->image)
+                    <div class="h-40 w-40 mx-auto mb-4">
+                        <img src="{{ asset('storage/' . $team->image) }}" 
+                             alt="{{ $team->name }}" 
+                             class="w-full h-full object-cover rounded-full">
+                    </div>
+                @endif
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">{{ $team->name }}</h3>
+                <p class="text-gray-500 text-center">{{ $team->position }}</p>
+                <span class="text-gray-700 text-center">{{ $team->category ? $team->category->name : '' }}</span>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center py-12">
+            <i data-lucide="users" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+            <p class="text-gray-600">No team members to display at the moment.</p>
+        </div>
+        @endif
+    </div>
+ </section>
+
 <section id="our-clients" class="py-16 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
@@ -265,15 +296,4 @@
     </div>
 </section>
 
-<!-- Call to Action -->
-<section class="py-16 bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-        <p class="text-xl text-gray-300 mb-8">Join us and explore amazing content and products</p>
-        <a href="{{ route('dashboard') }}" 
-           class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700">
-            Go to Dashboard
-        </a>
-    </div>
-</section>
 @endsection
