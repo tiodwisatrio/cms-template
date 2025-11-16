@@ -47,83 +47,73 @@
             <!-- Navigation Area - Scrollable -->
             <div class="flex-1 overflow-y-auto sidebar-scroll">
                 <nav class="p-4 space-y-2">
-                    <a href="{{ route('dashboard') }}" 
-                       class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('dashboard') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                        <i data-lucide="home" class="w-5 h-5 mr-2"></i> Dashboard
+                    {{-- Dynamic Navigation from Database --}}
+                    @php
+                        $navigations = \App\Models\Navigation::where('status', 1)->orderBy('order')->get();
+                        $subMenuRoutes = ['posts.index', 'products.index', 'teams.index'];
+                    @endphp
+                    
+                    @php
+    // Menu yang punya submenu Categories, mapping route ke tipe singular
+    $subMenuRoutes = [
+        'posts.index'    => 'post',
+        'products.index' => 'product',
+        'teams.index'    => 'team',
+    ];
+@endphp
+
+@foreach($navigations as $nav)
+    @if($nav->route)
+        {{-- Menu dengan submenu (Posts, Products, Teams) --}}
+        @if(array_key_exists($nav->route, $subMenuRoutes))
+            @php
+                $type = $subMenuRoutes[$nav->route];
+                $isOpen = request('type', '') === $type || request()->routeIs(str_replace('.index', '.*', $nav->route));
+            @endphp
+            <div x-data="{ open: {{ $isOpen ? 'true' : 'false' }} }" class="space-y-1">
+                <button @click="open = !open" type="button" 
+                        class="flex items-center w-full py-2 px-3 rounded transition-colors duration-200
+                               {{ (request()->routeIs(str_replace('.index', '.*', $nav->route)) || (request()->routeIs('categories.*') && request('type') === $type)) ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                    @if($nav->icon)
+                        <i data-lucide="{{ $nav->icon }}" class="w-5 h-5 mr-2"></i>
+                    @endif
+                    {{ $nav->label }}
+                    <svg :class="{'rotate-90': open}" class="ml-auto h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+                
+                {{-- Submenu --}}
+                <div x-show="open" class="pl-8 space-y-1">
+                    {{-- All Items --}}
+                    <a href="{{ route($nav->route) }}" 
+                       class="flex items-center py-2 px-3 rounded transition-colors duration-200
+                              {{ request()->routeIs(str_replace('.index', '.*', $nav->route)) && !request()->has('type') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                        <i data-lucide="list" class="w-4 h-4 mr-2"></i> All {{ $nav->label }}
                     </a>
-                    <!-- Posts with Categories submenu -->
-                    <div x-data="{ open: {{ request('type', '') === 'post' || request()->routeIs('posts.*') ? 'true' : 'false' }} }" class="space-y-1">
-                        <button @click="open = !open" type="button" class="flex items-center w-full py-2 px-3 rounded transition-colors duration-200 focus:outline-none {{ (request()->routeIs('posts.*') || (request()->routeIs('categories.*') && request('type') === 'post')) ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i> Posts
-                            <svg :class="{'rotate-90': open}" class="ml-auto h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                        </button>
-                        <div x-show="open" class="pl-8 space-y-1">
-                            <a href="{{ route('posts.index') }}" class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('posts.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                                <i data-lucide="list" class="w-4 h-4 mr-2"></i> All Posts
-                            </a>
-                            <a href="{{ route('categories.index', ['type' => 'post']) }}" class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ (request()->routeIs('categories.*') && request('type') === 'post') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                                <i data-lucide="folder" class="w-4 h-4 mr-2"></i> Categories
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Products with Categories submenu -->
-                    <div x-data="{ open: {{ request('type', '') === 'product' || request()->routeIs('products.*') ? 'true' : 'false' }} }" class="space-y-1">
-                        <button @click="open = !open" type="button" class="flex items-center w-full py-2 px-3 rounded transition-colors duration-200 focus:outline-none {{ (request()->routeIs('products.*') || (request()->routeIs('categories.*') && request('type') === 'product')) ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                            <i data-lucide="package" class="w-5 h-5 mr-2"></i> Products
-                            <svg :class="{'rotate-90': open}" class="ml-auto h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                        </button>
-                        <div x-show="open" class="pl-8 space-y-1">
-                            <a href="{{ route('products.index') }}" class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('products.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                                <i data-lucide="list" class="w-4 h-4 mr-2"></i> All Products
-                            </a>
-                            <a href="{{ route('categories.index', ['type' => 'product']) }}" class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ (request()->routeIs('categories.*') && request('type') === 'product') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                                <i data-lucide="folder" class="w-4 h-4 mr-2"></i> Categories
-                            </a>
-                        </div>
-                    </div>
-                     <a href="{{ route('abouts.index') }}" 
-                       class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('abouts.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                        <i data-lucide="info" class="w-5 h-5 mr-2"></i> About
+
+                    {{-- Categories --}}
+                    <a href="{{ route('categories.index', ['type' => $type]) }}" 
+                       class="flex items-center py-2 px-3 rounded transition-colors duration-200
+                              {{ (request()->routeIs('categories.*') && request('type') === $type) ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                        <i data-lucide="folder" class="w-4 h-4 mr-2"></i> Categories
                     </a>
-                    <a href="{{ route('services.index') }}" 
-                          class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('services.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                            <i data-lucide="briefcase" class="w-5 h-5 mr-2"></i> Services
-                    </a>
-                    <a href="{{ route('whychooseus.index') }}" 
-                            class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('whychooseus.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                                <i data-lucide="help-circle" class="w-5 h-5 mr-2"></i> Why Choose Us
-                    </a>
-                    <a href="{{route('ourvalues.index')}}" 
-                          class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('ourvalues.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                            <i data-lucide="star" class="w-5 h-5 mr-2"></i> Our Values
-                    </a>
-                    <a href="{{ route('ourclient.index') }}" 
-                          class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('ourclient.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                            <i data-lucide="users" class="w-5 h-5 mr-2"></i> Our Clients
-                    </a>
-                    <a href="{{ route('testimonials.index') }}" 
-                          class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('testimonials.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                            <i data-lucide="message-square" class="w-5 h-5 mr-2"></i> Testimonials
-                    </a>
-                   <!-- Teams dengan submenu categories -->
-                     <div x-data="{ open: {{ request('type', '') === 'team' || request()->routeIs('team.*') ? 'true' : 'false' }} }" class="space-y-1">
-                        <button @click="open = !open" type="button" class="flex items-center w-full py-2 px-3 rounded transition-colors duration-200 focus:outline-none {{ (request()->routeIs('posts.*') || (request()->routeIs('categories.*') && request('type') === 'post')) ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i> Our Team
-                            <svg :class="{'rotate-90': open}" class="ml-auto h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                        </button>
-                        <div x-show="open" class="pl-8 space-y-1">
-                            <a href="{{ route('teams.index') }}" class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('team.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                                <i data-lucide="list" class="w-4 h-4 mr-2"></i> All Teams
-                            </a>
-                            <a href="{{ route('categories.index', ['type' => 'team']) }}" class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ (request()->routeIs('categories.*') && request('type') === 'team') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                                <i data-lucide="folder" class="w-4 h-4 mr-2"></i> Categories
-                            </a>
-                        </div>
-                    </div>
-                    <a href="{{ route('contacts.index') }}" 
-                       class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('contacts.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
-                        <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Contact Messages
-                    </a>
+                </div>
+            </div>
+        @else
+            {{-- Menu regular tanpa submenu --}}
+            <a href="{{ route($nav->route) }}" 
+               class="flex items-center py-2 px-3 rounded transition-colors duration-200
+                      {{ request()->routeIs(str_replace('.index', '.*', $nav->route)) ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                @if($nav->icon)
+                    <i data-lucide="{{ $nav->icon }}" class="w-5 h-5 mr-2"></i>
+                @endif
+                {{ $nav->label }}
+            </a>
+        @endif
+    @endif
+@endforeach
+
 
 
                       <!-- Users menu hanya untuk admin -->
@@ -131,6 +121,10 @@
                     <a href="{{ route('users.index') }}" 
                        class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('users.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                         <i data-lucide="users" class="w-5 h-5 mr-2"></i> Users
+                    </a>
+                    <a href="{{ route('navigations.index') }}" 
+                       class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('navigations.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                        <i data-lucide="menu" class="w-5 h-5 mr-2"></i> Navigation
                     </a>
                     <a href="{{ route('settings.email') }}" 
                        class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('settings.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">

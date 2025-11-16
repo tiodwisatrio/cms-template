@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\ProductController as BackendProductController;
 use App\Http\Controllers\Backend\SettingController as BackendSettingController;
 use App\Http\Controllers\Backend\UserController as BackendUserController;
 use App\Http\Controllers\Backend\WhyChooseUsController as BackendWhyChooseUsController;
+use App\Http\Controllers\Backend\AgendaController as BackendAgendaController;
 
 use App\Http\Controllers\Frontend\AboutController as FrontendAboutController;
 use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
@@ -60,8 +61,8 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
     // CRUD Categories (Backend)
     Route::resource('categories', BackendCategoryController::class);
     
-        // CRUD Categories for Teams (Backend)
-        Route::resource('team/categories', App\Http\Controllers\Backend\TeamCategoryController::class, ['as' => 'team.categories']);
+    // CRUD Categories for Teams (Backend)
+    Route::resource('team/categories', App\Http\Controllers\Backend\TeamCategoryController::class, ['as' => 'team.categories']);
 
     // CRUD Users (khusus admin)
     Route::resource('users', BackendUserController::class)->middleware('can:admin-access');
@@ -82,10 +83,20 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
     Route::resource('testimonials', \App\Http\Controllers\Backend\TestimonialController::class)->middleware('can:admin-access');
 
     // CRUD Why Choose Us (Backend)
-Route::resource('whychooseus', BackendWhyChooseUsController::class)
-    ->parameters(['whychooseus' => 'whychooseus'])
-    ->middleware('can:admin-access');    // CRUD Teams (Backend)
+    Route::resource('whychooseus', BackendWhyChooseUsController::class)
+        ->parameters(['whychooseus' => 'whychooseus'])
+        ->middleware('can:admin-access'); 
+
+    // CRUD Agenda (Backend)
+    Route::resource('agendas', BackendAgendaController::class)->middleware('can:admin-access');
+
+    // CRUD Teams (Backend)
     Route::resource('teams', \App\Http\Controllers\Backend\TeamController::class)->middleware('can:admin-access');
+
+    // CRUD Navigations (Backend) - Only index and reorder
+    Route::get('navigations', [\App\Http\Controllers\Backend\NavigationController::class, 'index'])->name('navigations.index')->middleware('can:admin-access');
+    Route::patch('navigations/{navigation}', [\App\Http\Controllers\Backend\NavigationController::class, 'update'])->name('navigations.update')->middleware('can:admin-access');
+    Route::post('navigations/reorder', [\App\Http\Controllers\Backend\NavigationController::class, 'reorder'])->name('navigations.reorder')->middleware('can:admin-access');
 
     // Contact Messages
     Route::get('/contacts', [BackendContactController::class, 'index'])->name('contacts.index');

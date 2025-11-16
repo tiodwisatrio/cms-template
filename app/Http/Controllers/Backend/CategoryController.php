@@ -8,56 +8,38 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-    $query = Category::withCount(['posts', 'products', 'teams']);
+        $type = $request->input('type', 'post');
 
-        // Filter by type
-        if ($request->has('type') && $request->type !== 'all') {
-            $query->where('type', $request->type);
-        }
+        $query = Category::query()->where('type', $type);
 
         // Filter by status
-        if ($request->has('status')) {
-            if ($request->status === 'active') {
-                $query->where('is_active', true);
-            } elseif ($request->status === 'inactive') {
-                $query->where('is_active', false);
-            }
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->status === 'active' ? 1 : 0);
         }
 
-        // Search
-        if ($request->has('search') && $request->search) {
-            $query->where(function($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
-            });
+        // Filter by search
+        if ($request->filled('search')) {
+            $query->where('name', 'like', "%{$request->search}%");
         }
 
-        $categories = $query->ordered()->paginate(15);
+        $categories = $query->orderBy('sort_order')->paginate(15);
 
-        return view('categories.index', compact('categories'));
+        return view('categories.index', compact('categories', 'type'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(Request $request)
     {
-        return view('categories.create');
+        $type = $request->input('type', 'post');
+        return view('categories.create', compact('type'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:post,product,portfolio,general,team',
+            'type' => 'required|in:post,product,portfolio,team,general',
             'slug' => 'nullable|string|max:255|unique:categories,slug',
             'description' => 'nullable|string',
             'color' => 'nullable|string|max:7',
@@ -72,25 +54,19 @@ class CategoryController extends Controller
         Category::create($validated);
 
         return redirect()->route('categories.index', ['type' => $validated['type']])
-            ->with('success', 'Category created successfully.');
+                         ->with('success', 'Category created successfully.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        return view('categories.edit', ['category' => $category]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:post,product,portfolio,general,team',
+            'type' => 'required|in:post,product,portfolio,team,general',
             'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
             'color' => 'nullable|string|max:7',
@@ -105,26 +81,19 @@ class CategoryController extends Controller
         $category->update($validated);
 
         return redirect()->route('categories.index', ['type' => $validated['type']])
-            ->with('success', 'Category updated successfully.');
+                         ->with('success', 'Category updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
-        // Check if category has posts or products
-        $postsCount = $category->posts()->count();
-        $productsCount = $category->products()->count();
-
-        if ($postsCount > 0 || $productsCount > 0) {
-            return redirect()->route('categories.index')
-                ->with('error', "Cannot delete category. It has {$postsCount} posts and {$productsCount} products.");
+        if ($category->posts()->count() > 0 || $category->products()->count() > 0) {
+            return redirect()->route('categories.index', ['type' => $category->type])
+                             ->with('error', 'Cannot delete category because it has items.');
         }
 
         $category->delete();
 
-        return redirect()->route('categories.index')
-            ->with('success', 'Category deleted successfully.');
+        return redirect()->route('categories.index', ['type' => $category->type])
+                         ->with('success', 'Category deleted successfully.');
     }
 }
