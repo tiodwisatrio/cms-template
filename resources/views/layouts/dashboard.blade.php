@@ -89,6 +89,10 @@
                           class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('services.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                             <i data-lucide="briefcase" class="w-5 h-5 mr-2"></i> Services
                     </a>
+                    <a href="{{ route('whychooseus.index') }}" 
+                            class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('whychooseus.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
+                                <i data-lucide="help-circle" class="w-5 h-5 mr-2"></i> Why Choose Us
+                    </a>
                     <a href="{{route('ourvalues.index')}}" 
                           class="flex items-center py-2 px-3 rounded transition-colors duration-200 {{ request()->routeIs('ourvalues.*') ? 'bg-teal-700 text-white' : 'hover:bg-gray-200' }}">
                             <i data-lucide="star" class="w-5 h-5 mr-2"></i> Our Values

@@ -9,8 +9,9 @@ use App\Http\Controllers\Backend\PostController as BackendPostController;
 use App\Http\Controllers\Backend\ProductController as BackendProductController;
 use App\Http\Controllers\Backend\SettingController as BackendSettingController;
 use App\Http\Controllers\Backend\UserController as BackendUserController;
-use App\Http\Controllers\Frontend\AboutController as FrontendAboutController;
+use App\Http\Controllers\Backend\WhyChooseUsController as BackendWhyChooseUsController;
 
+use App\Http\Controllers\Frontend\AboutController as FrontendAboutController;
 use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
@@ -80,7 +81,10 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
     // CRUD Testimonials (Backend)
     Route::resource('testimonials', \App\Http\Controllers\Backend\TestimonialController::class)->middleware('can:admin-access');
 
-    // CRUD Teams (Backend)
+    // CRUD Why Choose Us (Backend)
+Route::resource('whychooseus', BackendWhyChooseUsController::class)
+    ->parameters(['whychooseus' => 'whychooseus'])
+    ->middleware('can:admin-access');    // CRUD Teams (Backend)
     Route::resource('teams', \App\Http\Controllers\Backend\TeamController::class)->middleware('can:admin-access');
 
     // Contact Messages
